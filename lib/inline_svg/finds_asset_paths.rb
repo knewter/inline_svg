@@ -2,7 +2,11 @@ module InlineSvg
   class FindsAssetPaths
     def self.by_filename(filename)
       asset = configured_asset_finder.find_asset(filename)
-      asset && asset.filename
+      asset &&
+        (asset.respond_to?(:filename) ?
+          asset.filename :
+          asset.pathname
+        )
     end
 
     def self.configured_asset_finder
